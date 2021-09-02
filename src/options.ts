@@ -29,6 +29,7 @@ import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 import { TextMapPropagator } from '@opentelemetry/api';
 import {
   CompositePropagator,
+  getEnv,
   HttpBaggagePropagator,
   HttpTraceContextPropagator,
 } from '@opentelemetry/core';
@@ -61,6 +62,7 @@ export interface Options {
 }
 
 export function _setDefaultOptions(options: Partial<Options> = {}): Options {
+  const env = getEnv();
   options.accessToken =
     options.accessToken || process.env.SPLUNK_ACCESS_TOKEN || '';
 
@@ -90,7 +92,7 @@ export function _setDefaultOptions(options: Partial<Options> = {}): Options {
 
   const serviceName =
     options.serviceName ||
-    process.env.OTEL_SERVICE_NAME ||
+    env.OTEL_SERVICE_NAME ||
     resource.attributes[SemanticResourceAttributes.SERVICE_NAME] ||
     defaultServiceName;
 
@@ -138,13 +140,14 @@ export function _setDefaultOptions(options: Partial<Options> = {}): Options {
 }
 
 export function resolveTracesExporter(): SpanExporterFactory {
+  const env = getEnv();
   const factory =
-    SpanExporterMap[process.env.OTEL_TRACES_EXPORTER ?? 'default'];
+    SpanExporterMap[env.OTEL_TRACES_EXPORTER ?? 'default'];
   assert.strictEqual(
     typeof factory,
     'function',
     `Invalid value for OTEL_TRACES_EXPORTER env variable: ${util.inspect(
-      process.env.OTEL_TRACES_EXPORTER
+      env.OTEL_TRACES_EXPORTER
     )}. Pick one of ${util.inspect(Object.keys(SpanExporterMap), {
       compact: true,
     })} or leave undefined.`
