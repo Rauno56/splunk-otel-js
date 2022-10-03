@@ -114,7 +114,7 @@
     "@opentelemetry/exporter-metrics-otlp-grpc": "^0.32.0",
     "@opentelemetry/exporter-metrics-otlp-proto": "^0.32.0",
     "@opentelemetry/sdk-metrics-base": "^0.31.0",
-    "@opentelemetry/instrumentation": "^0.32.0",
+    "@opentelemetry/instrumentation": "^0.33.0",
     "@opentelemetry/propagator-b3": "~1.6.0",
     "@opentelemetry/resources": "~1.6.0",
     "@opentelemetry/sdk-trace-base": "~1.6.0",
